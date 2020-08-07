@@ -14,10 +14,6 @@ table = dynamodb.create_table(
         {
             'AttributeName': 'author',
             'KeyType': 'RANGE'
-        },
-        {
-            'AttributeName': 'weeks',
-            'KeyType': 'RANGE'
         }
     ],
     AttributeDefinitions=[
@@ -28,10 +24,6 @@ table = dynamodb.create_table(
         {
             'AttributeName': 'author',
             'AttributeType': 'S'
-        },
-        {
-            'AttributeName': 'weeks',
-            'AttributeType': 'N'
         },
     ],
     ProvisionedThroughput={
