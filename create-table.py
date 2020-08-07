@@ -5,7 +5,7 @@ dynamodb = boto3.resource('dynamodb')
 
 # Create the DynamoDB table.
 table = dynamodb.create_table(
-    TableName='users',
+    TableName='test',
     KeySchema=[
         {
             'AttributeName': 'title',
