@@ -8,7 +8,7 @@ r = RandomWords()
 # Create SQS client
 sqs = boto3.client('sqs')
 
-queue_url = 'https://sqs.us-east-1.amazonaws.com/196035656700/test'
+queue_url = 'https://sqs.us-east-1.amazonaws.com/306784070391/test'
 
 #Generate Random Title
 title = r.get_random_word(hasDictionaryDef="true")
