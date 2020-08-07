@@ -1,0 +1,45 @@
+Metadata:
+  License: Apache-2.0
+Description: 'AWS Cloudformation template based off 
+  EC2InstanceWithSecurityGroupSample. Adapted to serve
+  needs by Dev Patel.
+  '
+Parameters:
+  KeyName:
+    Description: Name of EC2 KeyPair for SSH
+    Type: AWS::EC2::KeyPair::KeyName
+  AmiID:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstaceType: t2.micro
+      SecurityGroups: [!Ref 'InstanceSecurityGroup']
+      KeyName: !Ref 'KeyName'
+      ImageId: !Ref 'AmiID'
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: '0.0.0.0/0'
+
+Outputs:
+  InstanceId:
+    Description: InstanceId of the newly created EC2 instance
+    Value: !Ref 'EC2Instance'
+  AZ:
+    Description: Availability Zone of the newly created EC2 instance
+    Value: !GetAtt [EC2Instance, AvailabilityZone]
+  PublicDNS:
+    Description: Public DNSName of the newly created EC2 instance
+    Value: !GetAtt [EC2Instance, PublicDnsName]
+  PublicIP:
+    Description: Public IP address of the newly created EC2 instance
+    Value: !GetAtt [EC2Instance, PublicIp]
