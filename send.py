@@ -1,5 +1,5 @@
 import boto3
-from random_word import RandomWords
+from random_words import RandomWords
 import random
 
 #Create random word client
@@ -11,14 +11,15 @@ sqs = boto3.client('sqs')
 queue_url = 'https://sqs.us-east-1.amazonaws.com/306784070391/test'
 
 #Generate Random Title
-title = r.get_random_word(hasDictionaryDef="true")
+title = r.random_word()
 
 #Generate Random Author
-author = r.get_random_word()
+author = r.random_word()
 
 #Generate Random Number of Weeks 
 weeks = random.randint(0,10)
 
+weeksFinal = str(weeks)
 # Send message to SQS queue
 response = sqs.send_message(
     QueueUrl=queue_url,
@@ -34,7 +35,7 @@ response = sqs.send_message(
         },
         'WeeksOn': {
             'DataType': 'Number',
-            'StringValue': weeks
+            'StringValue': weeksFinal
         }
     },
     MessageBody=(
