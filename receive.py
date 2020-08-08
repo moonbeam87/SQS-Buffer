@@ -29,12 +29,12 @@ sqs.delete_message(
 
 print('Received and deleted message: %s' % message)
 
-dynamodb = boto3.resource('dynamodb')
+#dynamodb = boto3.resource('dynamodb')
 
-table = dynamodb.Table('test')
+#table = dynamodb.Table('test')
 
-table.put_item(
-   Item={
-        'SQSBookAttributes':message,
-    }
-)
+#table.put_item(
+#   Item={
+#        'SQSBookAttributes':message,
+#    }
+#)
