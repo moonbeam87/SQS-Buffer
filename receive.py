@@ -29,25 +29,25 @@ sqs.delete_message(
     ReceiptHandle=receipt_handle
 )
 
-print('Received and deleted message: %s' % message)
+#print('Received and deleted message: %s' % message)
 
 column1 = 'MessageAttributes__|'
 column2 = 'MessageAttributes__|__StringValue'
 df = pd.read_json(message)
-print("-------------------")
-print(df)
-print("--------------------")
+#print("-------------------")
+#print(df)
+#print("--------------------")
 author = df['MessageAttributes']['Author']
 author = author['StringValue']
 title = df['MessageAttributes']['Title']
 title = title['StringValue']
 weeks = df['MessageAttributes']['WeeksOn']
 weeks = weeks['StringValue']
-print("-------------------")
-print(author)
-print(title)
-print(weeks)
-print("--------------------")
+#print("-------------------")
+#print(author)
+#print(title)
+#print(weeks)
+#print("--------------------")
 dynamodb = boto3.resource('dynamodb')
 
 table = dynamodb.Table('test')
