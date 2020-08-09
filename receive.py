@@ -74,6 +74,6 @@ import time
 
 while True:
     receiveMessage()
-    time.sleep(15)
+    time.sleep(5)
 
 #receiveMessage()
