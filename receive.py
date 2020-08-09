@@ -21,50 +21,58 @@ def receiveMessage():
         VisibilityTimeout=0,
         WaitTimeSeconds=0
     )
+    print(response)   
+    key = 'Messages'
+    if key in response.keys():
 
-    message = response['Messages'][0]
+        message = response['Messages'][0]
 
-    receipt_handle = message['ReceiptHandle']
-    message = json.dumps(message)
-    # Delete received message from queue
-    sqs.delete_message(
-        QueueUrl=queue_url,
-        ReceiptHandle=receipt_handle
-    )
+        receipt_handle = message['ReceiptHandle']
+        message = json.dumps(message)
+        # Delete received message from queue
+        sqs.delete_message(
+            QueueUrl=queue_url,
+            ReceiptHandle=receipt_handle
+        )
 
-    #print('Received and deleted message: %s' % message)
+        #print('Received and deleted message: %s' % message)
 
-    column1 = 'MessageAttributes__|'
-    column2 = 'MessageAttributes__|__StringValue'
-    df = pd.read_json(message)
-    #print("-------------------")
-    #print(df)
-    #print("--------------------")
-    author = df['MessageAttributes']['Author']
-    author = author['StringValue']
-    title = df['MessageAttributes']['Title']
-    title = title['StringValue']
-    weeks = df['MessageAttributes']['WeeksOn']
-    weeks = weeks['StringValue']
-    #print("-------------------")
-    #print(author)
-    #print(title)
-    #print(weeks)
-    #print("--------------------")
-    dynamodb = boto3.resource('dynamodb')
+        column1 = 'MessageAttributes__|'
+        column2 = 'MessageAttributes__|__StringValue'
+        df = pd.read_json(message)
+        #print("-------------------")
+        #print(df)
+        #print("--------------------")
+        author = df['MessageAttributes']['Author']
+        author = author['StringValue']
+        title = df['MessageAttributes']['Title']
+        title = title['StringValue']
+        weeks = df['MessageAttributes']['WeeksOn']
+        weeks = weeks['StringValue']
+        #print("-------------------")
+        #print(author)
+        #print(title)
+        #print(weeks)
+        #print("--------------------")
+        dynamodb = boto3.resource('dynamodb')
 
-    table = dynamodb.Table('test')
+        table = dynamodb.Table('test')
 
-    table.put_item(
-    Item={
-            'title':title,
-            'author':author,
-            'weeks':weeks,
-            'SQSBookAttributes':message,
-        }
-    )
+        table.put_item(
+        Item={
+                'title':title,
+                'author':author,
+                'weeks':weeks,
+                'SQSBookAttributes':message,
+            }
+        )
+    else:
+        print("no messages")
 
-import time
-while True:
-    receiveMessage()
-    time.sleep(15)
+
+#import time
+#while True:
+#    receiveMessage()
+#    time.sleep(15)
+
+receiveMessage()
