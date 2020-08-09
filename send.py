@@ -4,44 +4,46 @@ from random_words import RandomNicknames
 import random
 
 #Create random word client
-r = RandomWords()
-rn = RandomNicknames()
-# Create SQS client
-sqs = boto3.client('sqs')
+def sendMessage():
+    r = RandomWords()
+    rn = RandomNicknames()
+    # Create SQS client
+    sqs = boto3.client('sqs')
 
-queue_url = 'https://sqs.us-east-1.amazonaws.com/306784070391/test'
+    queue_url = 'https://sqs.us-east-1.amazonaws.com/306784070391/test'
 
-#Generate Random Title
-title = r.random_word()
+    #Generate Random Title
+    title = r.random_word()
 
-#Generate Random Author
-author = rn.random_nick()
+    #Generate Random Author
+    author = rn.random_nick(letter='r', gender='m')
 
-#Generate Random Number of Weeks 
-weeks = random.randint(0,10)
+    #Generate Random Number of Weeks 
+    weeks = random.randint(0,10)
 
-weeksFinal = str(weeks)
-# Send message to SQS queue
-response = sqs.send_message(
-    QueueUrl=queue_url,
-    DelaySeconds=10,
-    MessageAttributes={
-        'Title': {
-            'DataType': 'String',
-            'StringValue': title
+    weeksFinal = str(weeks)
+    # Send message to SQS queue
+    response = sqs.send_message(
+        QueueUrl=queue_url,
+        DelaySeconds=10,
+        MessageAttributes={
+            'Title': {
+                'DataType': 'String',
+                'StringValue': title
+            },
+            'Author': {
+                'DataType': 'String',
+                'StringValue': author
+            },
+            'WeeksOn': {
+                'DataType': 'Number',
+                'StringValue': weeksFinal
+            }
         },
-        'Author': {
-            'DataType': 'String',
-            'StringValue': author
-        },
-        'WeeksOn': {
-            'DataType': 'Number',
-            'StringValue': weeksFinal
-        }
-    },
-    MessageBody=(
-        'Information about current NY Times fiction bestseller.'
+        MessageBody=(
+            'Information about current NY Times fiction bestseller.'
+        )
     )
-)
 
-print(response['MessageId'])
+    print(response['MessageId'])
+    return response['MessageId']
