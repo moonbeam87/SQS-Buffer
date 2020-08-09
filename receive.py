@@ -70,9 +70,10 @@ def receiveMessage():
         print("no messages")
 
 
-#import time
-#while True:
-#    receiveMessage()
-#    time.sleep(15)
+import time
 
-receiveMessage()
+while True:
+    receiveMessage()
+    time.sleep(15)
+
+#receiveMessage()
