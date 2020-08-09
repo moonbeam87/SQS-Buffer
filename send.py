@@ -1,10 +1,11 @@
 import boto3
 from random_words import RandomWords
+from random_words import RandomNicknames
 import random
 
 #Create random word client
 r = RandomWords()
-
+rn = RandomNicknames()
 # Create SQS client
 sqs = boto3.client('sqs')
 
@@ -14,7 +15,7 @@ queue_url = 'https://sqs.us-east-1.amazonaws.com/306784070391/test'
 title = r.random_word()
 
 #Generate Random Author
-author = r.random_word()
+author = rn.random_nick()
 
 #Generate Random Number of Weeks 
 weeks = random.randint(0,10)
