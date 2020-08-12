@@ -67,6 +67,10 @@ import time
 
 while True:
     receiveMessage()
-    time.sleep(15)
+    time.sleep(5)
 
+<<<<<<< HEAD
 # receiveMessage()
+=======
+#receiveMessage()
+>>>>>>> de1cbe3799fe1ac5a26a9f4f18715c8fd34c5180
